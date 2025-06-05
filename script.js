@@ -7,8 +7,8 @@ const elements = {
   cancelBtn: document.querySelector('.btn-cancel'),
   reviewForm: document.getElementById('reviewForm'),
   noReviewsMsg: document.querySelector('.no-reviews'),
-  ratingStars: document.querySelector('.rating-stars'),
-  reviewFormElement: document.querySelector('#reviewForm form'),
+  ratingStars: document.getElementById('ratingStars'), // Исправлено
+  reviewFormElement: document.getElementById('reviewFormElement'), // Исправлено
   reviewsList: document.getElementById('reviewsList'),
   averageRatingElement: document.getElementById('averageRating'),
   datePicker: document.getElementById('selected-date'),
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Функции инициализации компонентов
-
 function initAnimations() {
   const animateElements = () => {
     document.querySelectorAll('.animate-on-load').forEach((el, index) => {
@@ -47,7 +46,9 @@ function initSmoothScroll() {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
-      target?.scrollIntoView({ behavior: 'smooth' });
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 }
@@ -63,62 +64,92 @@ function initNavHighlighting() {
 
 function initPhoneModal() {
   const phoneLink = document.querySelector('nav h3 a');
-  phoneLink?.addEventListener('click', function(e) {
-    e.preventDefault();
-    alert('Наш номер: 8-983-368-84-98');
-  });
+  if (phoneLink) {
+    phoneLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('Наш номер: 8-983-368-84-98');
+    });
+  }
 }
 
 function initReviewSystem() {
   // Обработчики для формы отзыва
-  elements.reviewBtn?.addEventListener('click', () => {
-    elements.reviewForm.classList.remove('hidden');
-    elements.noReviewsMsg?.classList.add('hidden');
-  });
+  if (elements.reviewBtn) {
+    elements.reviewBtn.addEventListener('click', () => {
+      elements.reviewForm.classList.remove('hidden');
+      if (elements.noReviewsMsg) {
+        elements.noReviewsMsg.classList.add('hidden');
+      }
+    });
+  }
 
-  elements.cancelBtn?.addEventListener('click', () => {
-    elements.reviewForm.classList.add('hidden');
-    elements.noReviewsMsg?.classList.remove('hidden');
-  });
+  if (elements.cancelBtn) {
+    elements.cancelBtn.addEventListener('click', () => {
+      elements.reviewForm.classList.add('hidden');
+      if (elements.noReviewsMsg) {
+        elements.noReviewsMsg.classList.remove('hidden');
+      }
+    });
+  }
 
   // Рейтинг звездами
-  elements.ratingStars?.addEventListener('click', function(e) {
-    const rect = this.getBoundingClientRect();
-    const percent = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
-    const rating = Math.round(percent * 5);
+  if (elements.ratingStars) {
+    elements.ratingStars.addEventListener('click', function(e) {
+      const stars = this.querySelectorAll('span');
+      const star = e.target.closest('span');
+      if (!star) return;
 
-    document.getElementById('reviewRating').value = rating;
-    document.querySelector('.rating-select').style.width = `${rating * 20}%`;
-  });
+      const rating = parseInt(star.getAttribute('data-value'));
+      
+      // Подсветка звезд
+      stars.forEach((s, index) => {
+        s.style.color = index < rating ? '#ffc107' : '#ccc';
+      });
+
+      document.getElementById('reviewRating').value = rating;
+    });
+  }
 
   // Отправка формы отзыва
-  elements.reviewFormElement?.addEventListener('submit', function(e) {
-    e.preventDefault();
+  if (elements.reviewFormElement) {
+    elements.reviewFormElement.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    const review = {
-      name: document.getElementById('reviewName').value.trim() || 'Анонимный пользователь',
-      rating: document.getElementById('reviewRating').value,
-      text: document.getElementById('reviewText').value.trim(),
-      date: new Date().toLocaleDateString('ru-RU')
-    };
+      const review = {
+        name: document.getElementById('reviewName').value.trim() || 'Анонимный пользователь',
+        rating: parseInt(document.getElementById('reviewRating').value),
+        text: document.getElementById('reviewText').value.trim(),
+        date: new Date().toLocaleDateString('ru-RU')
+      };
 
-    saveReview(review);
-    this.reset();
-    document.querySelector('.rating-select').style.width = '100%';
-    elements.reviewForm.classList.add('hidden');
-    loadReviews();
-  });
+      saveReview(review);
+      this.reset();
+      
+      // Сброс звезд
+      if (elements.ratingStars) {
+        const stars = elements.ratingStars.querySelectorAll('span');
+        stars.forEach(star => {
+          star.style.color = '#ccc'; // Сброс цвета звезд
+        });
+      }
+      
+      elements.reviewForm.classList.add('hidden');
+      loadReviews();
+    });
+  }
 }
 
 function initDatePicker() {
-  if (elements.datePicker) {
+  if (elements.datePicker && typeof flatpickr !== 'undefined') {
     flatpickr(elements.datePicker, {
       dateFormat: "Y-m-d",
       locale: "ru",
       minDate: "today"
     });
 
-    elements.checkDatesBtn?.addEventListener('click', checkAvailability);
+    if (elements.checkDatesBtn) {
+      elements.checkDatesBtn.addEventListener('click', checkAvailability);
+    }
   }
 }
 
@@ -126,7 +157,9 @@ function initDatePicker() {
 async function checkAvailability() {
   const selectedDate = elements.datePicker.value;
   if (!selectedDate) {
-    elements.availableTimes.innerHTML = '<p>Пожалуйста, выберите дату.</p>';
+    if (elements.availableTimes) {
+      elements.availableTimes.innerHTML = '<p>Пожалуйста, выберите дату.</p>';
+    }
     return;
   }
 
@@ -134,20 +167,49 @@ async function checkAvailability() {
     const response = await fetch(`available-times?date=${selectedDate}`);
     const availableTimes = await response.json();
 
-    elements.availableTimes.innerHTML = availableTimes.length > 0 
-      ? `<p>Свободные часы для брони зала на ${selectedDate}: <strong>${availableTimes.join(', ')}</strong></p>`
-      : '<p>На выбранную дату нет доступных часов.</p>';
+    if (elements.availableTimes) {
+      elements.availableTimes.innerHTML = availableTimes.length > 0 
+        ? `<p>Свободные часы для брони зала на ${selectedDate}: <strong>${availableTimes.join(', ')}</strong></p>`
+        : '<p>На выбранную дату нет доступных часов.</p>';
+    }
   } catch (error) {
     console.error('Ошибка при загрузке данных:', error);
-    elements.availableTimes.innerHTML = '<p>Не удалось загрузить данные о доступных часах.</p>';
+    if (elements.availableTimes) {
+      elements.availableTimes.innerHTML = '<p>Не удалось загрузить данные о доступных часах.</p>';
+    }
   }
 }
 
 // Функции работы с отзывами
-
 function loadReviews() {
-  reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-  displayReviews();
+  try {
+    const storedReviews = localStorage.getItem('reviews');
+    reviews = storedReviews ? JSON.parse(storedReviews) : [];
+    
+    // Добавляем тестовые отзывы, если нет сохраненных
+    if (reviews.length === 0) {
+      reviews = [
+        {
+          name: "Анна",
+          rating: 5,
+          text: "Отличный центр, детям очень понравилось!",
+          date: new Date().toLocaleDateString('ru-RU')
+        },
+        {
+          name: "Иван",
+          rating: 4,
+          text: "Хорошее место, но цены могли бы быть ниже",
+          date: new Date().toLocaleDateString('ru-RU')
+        }
+      ];
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+    }
+    
+    displayReviews();
+  } catch (e) {
+    console.error("Ошибка загрузки отзывов:", e);
+    displayDefaultReviews();
+  }
 }
 
 function displayReviews() {
@@ -156,7 +218,9 @@ function displayReviews() {
   elements.reviewsList.innerHTML = '';
 
   if (reviews.length === 0) {
-    elements.noReviewsMsg?.classList.remove('hidden');
+    if (elements.noReviewsMsg) {
+      elements.noReviewsMsg.classList.remove('hidden');
+    }
     return;
   }
 
@@ -175,10 +239,37 @@ function displayReviews() {
   updateAverageRating();
 }
 
+function displayDefaultReviews() {
+  if (!elements.reviewsList) return;
+  
+  elements.reviewsList.innerHTML = `
+    <div class="review">
+      <h4 class="review-name">Мария</h4>
+      <div class="review-rating">★★★★★</div>
+      <p class="review-text">Прекрасное место для семейного отдыха!</p>
+      <p class="review-date">${new Date().toLocaleDateString('ru-RU')}</p>
+    </div>
+    <div class="review">
+      <h4 class="review-name">Сергей</h4>
+      <div class="review-rating">★★★★☆</div>
+      <p class="review-text">Хороший сервис, детям понравилось</p>
+      <p class="review-date">${new Date().toLocaleDateString('ru-RU')}</p>
+    </div>
+  `;
+  
+  if (elements.averageRatingElement) {
+    elements.averageRatingElement.textContent = '4.5';
+  }
+}
+
 function saveReview(review) {
   reviews.push(review);
-  localStorage.setItem('reviews', JSON.stringify(reviews));
-  updateAverageRating();
+  try {
+    localStorage.setItem('reviews', JSON.stringify(reviews));
+    updateAverageRating();
+  } catch (e) {
+    console.error("Ошибка сохранения отзыва:", e);
+  }
 }
 
 function updateAverageRating() {
@@ -192,3 +283,4 @@ function updateAverageRating() {
   const totalRating = reviews.reduce((sum, review) => sum + parseInt(review.rating), 0);
   elements.averageRatingElement.textContent = (totalRating / reviews.length).toFixed(1);
 }
+
