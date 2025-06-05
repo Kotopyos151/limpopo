@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лимпопо - О нас</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="logo"><a href="index.html"><img src="images/logo.png"></a></li>
+                <li>
+                    <a href="index.html">Главная</a>
+                    <a href="about.html">О нас</a>
+                    <a href="schedule.html">График</a>
+                    <a href="services.html">Услуги</a>
+                    <a href="location.html">Местоположение</a>
+                    <a href="contacts.html">Контакты</a>
+                </li>
+            </ul>
+            <h3>Номер телефона<br><a href="tel:89833688498">8-983-368-84-98</a></h3>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="page-header">
+            <h1>О нашем центре</h1>
+        </section>
+        
+        <section class="about-content">
+            <div class="about-section">
+                <h2>Наша цель</h2>
+                <p>Создать уютное пространство для семейного отдыха, обучения и общения, где каждый член семьи может быть счастливым.</p>
+            </div>
+            
+            <div class="about-section">
+                <h2>Наши ценности</h2>
+                <ul>
+                    <li>Безопасность для всех: детей, родителей и наших сотрудников</li>
+                    <li>Превосходный сервис</li>
+                    <li>Счастливый гость</li>
+                    <li>Здоровый образ жизни</li>
+                </ul>
+            </div>
+
+            
+        </section>
+        
+        <section class="reviews-section">
+            <div class="container">
+              <h2 class="reviews-title">Оставьте свой отзыв</h2>
+              
+              <div class="reviews-container">
+                <div class="no-reviews">
+                  <div class="rating-prompt">
+                    <div class="average-rating">
+                      <span class="rating-number" id="averageRating">2.7</span>
+                    </div>
+                    
+                    <p class="rating-caption">Оцените или напишите отзыв</p>
+                  </div>
+                  
+                  <div class="no-reviews-message">
+                    <p>Поделитесь мнением и помогите другим определиться с выбором.</p>
+                  </div>
+                  
+                  <button class="btn btn-review">Написать отзыв</button>
+                </div>
+                
+                <details class="reviews-info">
+                  <summary>Как мы проверяем отзывы?</summary>
+                  <p>Все отзывы проходят модерацию. Мы публикуем только реальные мнения посетителей нашего центра.</p>
+                </details>
+              </div>
+              
+              <div class="review-form hidden" id="reviewForm">
+                <h3>Оставить отзыв</h3>
+                <form id="reviewFormElement">
+                  <div class="form-group">
+                    <label for="reviewName">Ваше имя:</label>
+                    <input type="text" id="reviewName" placeholder="Введите ваше имя" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Ваша оценка:</label>
+                    <div class="rating-stars" id="ratingStars">
+                      <span data-value="1">★</span>
+                      <span data-value="2">★</span>
+                      <span data-value="3">★</span>
+                      <span data-value="4">★</span>
+                      <span data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="reviewRating" value="5">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="reviewText">Ваш отзыв:</label>
+                    <textarea id="reviewText" rows="4" placeholder="Расскажите о вашем опыте посещения" required></textarea>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-submit">Отправить</button>
+                    <button type="button" class="btn btn-cancel">Отмена</button>
+                  </div>
+                </form>
+              </div>
+              <div class="about-section">
+                <h2>Наши отзывы</h2>
+                <div id="published-reviews" class="published-reviews">
+                    <!-- Отзывы будут загружаться здесь через JavaScript -->
+                    <div class="reviews-list" id="reviewsList"></div>
+                </div>
+              </div>
+            </div>
+            
+        </section>
+      </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Детский игровой центр "Лимпопо"</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/limpopo_kzl?igsh=N29reXNmdms3eWRn"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+  
+    
+</body>
+</html>

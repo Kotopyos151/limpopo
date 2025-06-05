@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лимпопо - График работы</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!-- Подключение Flatpickr CSS -->
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="logo"><a href="index.html"><img src="images/logo.png" alt="Логотип Лимпопо"></a></li>
+                <li>
+                    <a href="index.html">Главная</a>
+                    <a href="about.html">О нас</a>
+                    <a href="schedule.html">График</a>
+                    <a href="services.html">Услуги</a>
+                    <a href="location.html">Местоположение</a>
+                    <a href="contacts.html">Контакты</a>
+                </li>
+            </ul>
+            <h3>Номер телефона<br><a href="tel:89833688498">8-983-368-84-98</a></h3>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="page-header">
+            <h1>График работы</h1>
+        </section>
+        
+        <section class="schedule-section">
+            <div class="container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>День недели</th>
+                            <th>Часы работы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Понедельник</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                        <tr>
+                            <td>Вторник</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                        <tr>
+                            <td>Среда</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                        <tr>
+                            <td>Четверг</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                        <tr>
+                            <td>Пятница</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                        <tr>
+                            <td>Суббота</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                        <tr>
+                            <td>Воскресенье</td>
+                            <td>11:00 - 20:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="check-availability">
+                    <h2>Узнать свободные даты и часы</h2>
+                    <input type="text" id="selected-date" aria-label="Выберите дату" placeholder="Выберите дату">
+                    <button id="check-dates">Проверить</button>
+                    <div id="available-times"></div> <!-- Место для отображения свободных часов -->
+                </div>
+            
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Детский игровой центр "Лимпопо"</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/limpopo_kzl?igsh=N29reXNmdms3eWRn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> <!-- Подключение Flatpickr JS -->
+    <script src="script.js"></script>
+    
+</body>
+</html>
+
