@@ -153,7 +153,6 @@ function initDatePicker() {
   }
 }
 
-// Обработка нажатия кнопки "Проверить"
 async function checkAvailability() {
   const selectedDate = elements.datePicker.value;
   if (!selectedDate) {
@@ -164,8 +163,10 @@ async function checkAvailability() {
   }
 
   try {
-    const response = await fetch(`available-times?date=${selectedDate}`);
-    const availableTimes = await response.json();
+    const response = await fetch('available-times.json'); // Убедитесь, что путь правильный
+    const availableTimesData = await response.json();
+
+    const availableTimes = availableTimesData[selectedDate] || [];
 
     if (elements.availableTimes) {
       elements.availableTimes.innerHTML = availableTimes.length > 0 
@@ -179,6 +180,7 @@ async function checkAvailability() {
     }
   }
 }
+
 
 // Функции работы с отзывами
 function loadReviews() {
@@ -283,4 +285,5 @@ function updateAverageRating() {
   const totalRating = reviews.reduce((sum, review) => sum + parseInt(review.rating), 0);
   elements.averageRatingElement.textContent = (totalRating / reviews.length).toFixed(1);
 }
+
 
