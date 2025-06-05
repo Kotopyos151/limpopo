@@ -164,6 +164,10 @@ async function checkAvailability() {
 
   try {
     const response = await fetch('available-times.json'); // Убедитесь, что путь правильный
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const availableTimesData = await response.json();
 
     const availableTimes = availableTimesData[selectedDate] || [];
@@ -180,6 +184,7 @@ async function checkAvailability() {
     }
   }
 }
+
 
 
 // Функции работы с отзывами
